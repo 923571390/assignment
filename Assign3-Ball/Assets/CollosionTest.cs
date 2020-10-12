@@ -70,7 +70,27 @@ public class CollosionTest : MonoBehaviour
                 //如果有碰撞，位置回退，防止穿透
                 transform.position = prePos;
             }
+            else
+            {
+                if (pos.x <= -19|| pos.x >= 19)
+                {
+                    Debug.Log("碰到墙啦!");
+                    Vector3 v1 = new Vector3(-preV.x, 0, preV.z);
+                    //如果有碰撞，位置回退，防止穿透
+                    transform.position = prePos;
+                    preV = v1;
+                }
+                if (pos.z <= -9 || pos.z >= 9)
+                {
+                    Debug.Log("碰到墙啦!");
+                    Vector3 v1 = new Vector3(preV.x, 0, -preV.z);
+                    //如果有碰撞，位置回退，防止穿透
+                    transform.position = prePos;
+                    preV = v1;
+                }                
+            }
         }
+       
 
     }
 }

@@ -22,10 +22,28 @@ public class OtherSphere : MonoBehaviour
     void Update()
     {
 
+        Vector3 prePos = transform.position;
+        Vector3 pos = transform.position;
         //摩擦力
         Vector3 frictionDeltaV = -Time.deltaTime * friction * currentV.normalized;
         //防止摩擦力反向运动
         Vector3 finalV = currentV + frictionDeltaV;
+        if (pos.x <= -18.5 || pos.x >= 18.5)
+        {
+            Debug.Log("大球碰到墙啦!");
+            Vector3 v1 = new Vector3(-currentV.x, 0, currentV.z);
+            //如果有碰撞，位置回退，防止穿透
+            transform.position = prePos;
+            currentV = v1;
+        }
+        if (pos.z <= -8.5 || pos.z >= 8.5)
+        {
+            Debug.Log("大球碰到墙啦!");
+            Vector3 v1 = new Vector3(currentV.x, 0, -currentV.z);
+            //如果有碰撞，位置回退，防止穿透
+            transform.position = prePos;
+            currentV = v1;
+        }
         if (finalV.x * currentV.x <= 0)
             frictionDeltaV.x = -currentV.x;
         if (finalV.y * currentV.y <= 0)
@@ -37,6 +55,8 @@ public class OtherSphere : MonoBehaviour
         Vector3 curV = currentV + frictionDeltaV;
         transform.Translate((curV + currentV) * Time.deltaTime / 2);
         currentV = curV;
+
+        
 
     }
 }
