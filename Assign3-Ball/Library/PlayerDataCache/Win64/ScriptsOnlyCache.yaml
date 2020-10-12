@@ -21,8 +21,6 @@ ScriptsOnlyBuild:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
-    com.unity.multiplayer-hlapi.Runtime.dll:
-    - UnityEngine.Networking.NetworkCallbacks
   sceneClasses:
     Assets/Scenes/Physics.unity:
     - Class: 1
@@ -643,4 +641,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/Physics.unity
-  playerPath: D:/project/clear-project/assignment/Assign3-Ball/IMDT.exe
+  playerPath: D:/project/clear-project/assignment/Assign3-Ball/Assign3-Ball.exe
