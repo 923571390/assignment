@@ -47,14 +47,7 @@ public class Player : MonoBehaviour
     // 飘分的UI组件
     public Text SingleScoreText;
 
-    // 保存分数面板
-    public GameObject SaveScorePanel;
-
-    // 名字输入框
-    public InputField NameField;
-
-    // 保存按钮
-    public Button SaveButton;
+    public Text Result;
 
     // 排行榜面板
     public GameObject RankPanel;
@@ -95,7 +88,6 @@ public class Player : MonoBehaviour
 
         _cameraRelativePosition = Camera.main.transform.position - transform.position;
 
-        SaveButton.onClick.AddListener(OnClickSaveButton);
         RestartButton.onClick.AddListener(() => { SceneManager.LoadScene(0); });
 
         _leanCloud = new LeanCloudRestAPI(LeanCloudAppId, LeanCloudAppKey);
@@ -269,16 +261,8 @@ public class Player : MonoBehaviour
 
     private void OnGameOver()
     {
-        if (_score > 0)
-        {
-            //本局游戏结束，如果得分大于0，显示上传分数panel
-            SaveScorePanel.SetActive(true);
-        }
-        else
-        {
             //否则直接显示排行榜
             ShowRankPanel();
-        }
     }
 
     /// <summary>
@@ -329,58 +313,9 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 处理点击上传分数按钮
     /// </summary>
-    void OnClickSaveButton()
-    {
-        var nickname = NameField.text;
-
-        if (nickname.Length == 0)
-            return;
-
-        //创建一个GameScore分数对象
-        GameScore gameScore = new GameScore();
-        gameScore.score = _score;
-        gameScore.playerName = nickname;
-
-        //异步保存
-        StartCoroutine(_leanCloud.Create("GameScore", JsonUtility.ToJson(gameScore, false), ShowRankPanel));
-        SaveScorePanel.SetActive(false);
-    }
-
-    /// <summary>
-    /// 显示排行榜面板
-    /// </summary>
     void ShowRankPanel()
     {
-        //获取GameScore数据对象，降序排列取前10个数据
-        var param = new Dictionary<string, object>();
-        param.Add("order", "-score");
-        param.Add("limit", 10);
-        StartCoroutine(_leanCloud.Query("GameScore", param, t =>
-        {
-            var results = JsonUtility.FromJson<QueryRankResult>(t);
-            var scores = new List<KeyValuePair<string, string>>();
-
-            //将数据转化为字符串
-            foreach (var result in results.results)
-            {
-                scores.Add(
-                    new KeyValuePair<string, string>(result.playerName, result.score.ToString()));
-            }
-
-            foreach (var score in scores)
-            {
-                var item = Instantiate(RankName);
-                item.SetActive(true);
-                item.GetComponent<Text>().text = score.Key;
-                item.transform.SetParent(RankName.transform.parent);
-
-                item = Instantiate(RankScore);
-                item.SetActive(true);
-                item.GetComponent<Text>().text = score.Value;
-                item.transform.SetParent(RankScore.transform.parent);
-            }
-
-            RankPanel.SetActive(true);
-        }));
+        Result.text = TotalScoreText.text;
+        RankPanel.SetActive(true);
     }
 }
