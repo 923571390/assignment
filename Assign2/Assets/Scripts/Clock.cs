@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bolt;
+using Ludiq;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +14,6 @@ public class Clock : MonoBehaviour
     public int s;
     void Start()
     {
-        print("这是平凡枯燥的一天啊");
-        //读取本地时间
         GetNowTime();
         draw();
         InvokeRepeating("VitualTime", 1, 1);
@@ -23,8 +23,8 @@ public class Clock : MonoBehaviour
     {
         Text text;
         text = GameObject.Find("Canvas/Text").GetComponent<Text>();
-        Text text1;
-        text1 = GameObject.Find("Canvas/Text1").GetComponent<Text>();
+        //Text text1;
+        //text1 = GameObject.Find("Canvas/Text1").GetComponent<Text>();
         if (h == 7 && m == 0) s = 1;
         if (h == 7 && m == 15) s = 2;
         else if (h == 8 && m == 0) s = 3;
@@ -34,33 +34,26 @@ public class Clock : MonoBehaviour
         {
             case 0:
                 Dis();
-                text.text =  "该睡觉了！";
-                text1.text = "又定了个7点的闹铃……";
+                text.text =  "该睡觉了！\n又定了个7点的闹铃……";
                 break;
             case 1:
-                text.text = "闹铃响了！";
-                text1.text = "我们去吃饭~";
+                text.text = "闹铃响了！\n我们去吃饭~";
                 break;
             case 2:
-                text.text = "吃完了！";
-                text1.text = "我们去上课~";
+                text.text = "吃完了！\n我们去上课~";
                 break;
             case 3:
-                text.text = "总算下课了！";
-                text1.text = "又能吃饭了~";
+                text.text = "总算下课了！\n又能吃饭了~";
                 break;
             case 4:
-                text.text = "吃完了！";
-                text1.text = "接下来做什么呢~";
+                text.text = "吃完了！\n接下来做什么呢~";
                 choose();
                 break;
             case 5:
-                text.text = "虽然逃了课！";
-                text1.text = "但打游戏太快乐了~";
+                text.text = "虽然逃了课！\n但打游戏太快乐了~";
                 break;
             case 6:
-                text.text = "虽然没有耽误上课~";
-                text1.text = "但我还是想打游戏……";
+                text.text = "虽然没有耽误上课~\n但我还是想打游戏……";
                 break;
             default:
                 break;
@@ -89,6 +82,7 @@ public class Clock : MonoBehaviour
         }
         draw();
     }
+
     private void choose()
     {
         Button btn1;
